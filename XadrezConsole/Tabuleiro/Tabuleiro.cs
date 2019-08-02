@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Tabuleiro
+namespace tabuleiro
 {
     class Tabuleiro
     {
@@ -22,6 +22,13 @@ namespace Tabuleiro
             //Matriz de peças
             pecas = new Peca[linhas, colunas];
 
+        }
+
+        //5.3 Metodo que vai passar a posição da peça dentro do tabuleiro para
+        // o 6.3 Na classe Tela
+        public Peca peca(int linha, int coluna)
+        {
+            return pecas[linha, coluna];
         }
     }
 
