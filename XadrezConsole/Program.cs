@@ -1,21 +1,18 @@
 ﻿using System;
 using tabuleiro;
 using Xadrez;
+using tabuleiro;
 namespace XadrezConsole
 {
     class Program
     {
         static void Main(string[] args)
         {
-            //Chamando o tabuleiro
-            Tabuleiro tab = new Tabuleiro(8, 8);
+            PosicaoXadrez pos = new PosicaoXadrez('a', 1);
 
-            //Chamando as peças dentro do tabuleiro
-            tab.ColocarPeca(new Torre(tab, Cor.Preta), new Posicao(0, 0));
-            tab.ColocarPeca(new Rei(tab, Cor.Vermelho), new Posicao(2, 4));
-
-
-            Tela.ImprimirTabuleiro(tab);
+            Console.WriteLine(pos);
+            Console.WriteLine(pos.toPosicao());
+            
         }
     }
 }
