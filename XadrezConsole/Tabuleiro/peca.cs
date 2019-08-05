@@ -19,9 +19,9 @@ namespace tabuleiro
         public Tabuleiro tab { get; protected set; }
 
         //4.2 Construtor
-        public Peca( Posicao posicao, Tabuleiro tab, Cor cor)
+        public Peca(Tabuleiro tab, Cor cor)
         {
-            this.posicao = posicao;
+            this.posicao = null;
             this.tab = tab;
             this.cor = cor;
             //Não passada como argumento pois inicia com 0
