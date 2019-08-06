@@ -50,6 +50,12 @@ namespace tabuleiro
         //Inserindo peças no tabuleiro
         public void ColocarPeca(Peca p, Posicao pos)
         {
+            if (ExistePeca(pos))
+            {
+                //Para add peça preciso verificar se ja existe uma peça naquela posição
+                //Se existir eu chamo exeção com mensagem de erro diferente
+                throw new TabuleiroException("Ja existe uma peça nesta posição");
+            }
             //A matriz pecas vai receber uma PEÇA  na posicao p.linha, p.coluna
             pecas[pos.linha, pos.coluna] = p;
             //A pposição dela agora vai ser pos

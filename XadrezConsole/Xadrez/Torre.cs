@@ -15,7 +15,7 @@ namespace Xadrez
         //8.3 Metodo que vai imprimir a Torre
         public override string ToString()
         {
-            return "R";
+            return "T";
         
         }
     }
