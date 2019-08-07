@@ -18,6 +18,13 @@ namespace tabuleiro
             this.coluna = coluna;
         }
 
+        //2.3.2 Metodo que vai definir os valores da posicao
+        public void DefinirPosicao(int linha, int coluna)
+        {
+            this.linha = linha;
+            this.coluna = coluna;
+        }
+
 
         //2.3 - Metodo Para Imprimir 
         public override string ToString()

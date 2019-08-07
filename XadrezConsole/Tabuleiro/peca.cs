@@ -4,7 +4,7 @@ using System.Text;
 
 namespace tabuleiro
 {
-    class Peca
+   abstract class Peca
     {
         public Posicao posicao { get; set; }
 
@@ -33,5 +33,9 @@ namespace tabuleiro
         {
             qteMovimentos++;
         }
+
+        //4.3.2 Movimentos possiveis que as peças podem fazer
+        public abstract bool[,] MovimentosPossiveis();
+        
     }
 }
