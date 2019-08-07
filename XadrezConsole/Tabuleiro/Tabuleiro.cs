@@ -62,6 +62,28 @@ namespace tabuleiro
             p.posicao = pos;
         }
 
+        //5.3.5 Retirar peça do tabuleiro
+        //Ele vai retornar uma PECA(posso precisar desta peça ainda) //Retirar a peca de uma dada posicao
+        public Peca RetirarPeca(Posicao pos)
+        {
+            //se peca(na posicao) for igual a nulo
+            if (peca(pos) == null)
+            {
+                return null;
+            }
+            else
+            {
+                //caso tenha peça, ela vai passar pra variavel AUX
+                Peca aux = peca(pos);
+                //ela se torna null ou seja, não esta mais dentro do tabuleiro
+                aux.posicao = null;
+               // marca a posição dela como Nulo, marca a posição no tabuleiro informando que não existe mais peça LA
+                pecas[pos.linha, pos.coluna] = null;
+                return aux;
+            }
+        }
+
+
         //5.3.3 Metodo que vai vewrificar se a posição é Valida no tabuleiro
         public bool PosicaoValida(Posicao pos)
         {

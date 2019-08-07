@@ -27,5 +27,11 @@ namespace tabuleiro
             //Não passada como argumento pois inicia com 0
             this.qteMovimentos = 0;
         }
+
+        //4.3 Vai incrementar a quantidade de movimentos
+        public void IncrementarQteMovimentos()
+        {
+            qteMovimentos++;
+        }
     }
 }
