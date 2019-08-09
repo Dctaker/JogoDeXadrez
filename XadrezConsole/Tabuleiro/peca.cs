@@ -28,6 +28,29 @@ namespace tabuleiro
             this.qteMovimentos = 0;
         }
 
+        //4.3.4 Posso mover(peca(pos)) para destino
+        public bool PodeMoverPara(Posicao pos)
+        {
+            return MovimentosPossiveis()[pos.linha, pos.coluna];
+        }
+
+        //4.3.3 Verificar se a peça não esta bloqueda de MOvimentos
+        public bool ExisteMovimentosPossiveis()
+        {
+            bool[,] mat = MovimentosPossiveis();
+            for( int i=0; i<tab.linhas; i++)
+            {
+                for(int j=0; j<tab.colunas; j++)
+                {
+                    if( mat[i , j])
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
         //4.3 Vai incrementar a quantidade de movimentos
         public void IncrementarQteMovimentos()
         {
