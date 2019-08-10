@@ -8,6 +8,41 @@ namespace XadrezConsole
 {
     class Tela
     {
+
+        //6.3.5 
+        public static void ImprimirPartida(PartidaDeXadrez partida)
+        {
+            ImprimirTabuleiro(partida.tab);
+            Console.WriteLine();
+            ImprimirPecasCapturadas(partida);
+            Console.WriteLine("Turno: " + partida.turno);
+            Console.WriteLine("Aguardando: " + partida.jogadorAtual);
+            Console.WriteLine();
+        }
+
+        //6.3.6
+        public static void ImprimirPecasCapturadas(PartidaDeXadrez partida)
+        {
+            Console.WriteLine("Pecas Capturadas: ");
+            Console.Write("Brancas");
+            ImprimirConjunto(partida.PecasCapturadas(Cor.Branca));
+            Console.WriteLine();
+            
+            Console.Write("Pretas");
+            ImprimirConjunto(partida.PecasCapturadas(Cor.Preta));
+            Console.WriteLine();
+        }
+
+        public static void ImprimirConjunto(HashSet<Peca> conjunto)
+        {
+            Console.Write("[");
+            foreach( Peca x in conjunto)
+            {
+                Console.Write(x);
+            }
+            Console.Write("]");
+        } 
+    
         //6.3 Metodo estatico recebendo um tab
         public static void ImprimirTabuleiro(Tabuleiro tab)
         {
