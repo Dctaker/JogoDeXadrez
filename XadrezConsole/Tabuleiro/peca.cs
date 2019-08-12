@@ -29,7 +29,7 @@ namespace tabuleiro
         }
 
         //4.3.4 Posso mover(peca(pos)) para destino
-        public bool PodeMoverPara(Posicao pos)
+        public bool MovimentoPossivel(Posicao pos)
         {
             return MovimentosPossiveis()[pos.linha, pos.coluna];
         }

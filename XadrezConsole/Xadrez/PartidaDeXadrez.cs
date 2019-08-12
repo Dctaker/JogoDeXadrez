@@ -80,8 +80,16 @@ namespace Xadrez
                 xeque = false;
             }
 
-            turno++;
-            MudarJogador();
+            if (TestarExqueMate(Adversaria(jogadorAtual)))
+            {
+                terminada = true;
+            }
+            else // se não tiver em xeque mate:
+            {
+                turno++;
+                MudarJogador();
+            }
+        
         }
 
         //9.3.5 Realizar as verificações se e possivel mover peça de Origem
@@ -106,7 +114,7 @@ namespace Xadrez
         //9.3.6 Realizar verificações se e possivel mover peca para Destino
         public void ValidarPosicaoDestino(Posicao origem, Posicao destino)
         {
-            if (!tab.peca(origem).PodeMoverPara(destino))
+            if (!tab.peca(origem).MovimentoPossivel(destino))
             {
                 throw new TabuleiroException("Posição de Destino invalida!");
             }
@@ -205,6 +213,42 @@ namespace Xadrez
                 }
             }
             return false;
+        }
+
+        //9.3.9 Metodo responsavel pela logica de XEQUE MATE
+        public bool TestarExqueMate(Cor cor)
+        {
+            //É impossivel xequeMate se a peca da cor não estiver em Xeque
+            if (!EstaEmXeque(cor))
+            {
+                return false;
+            }
+            foreach( Peca x in PecasEmJogo(cor))
+            {
+                bool[,] mat = x.MovimentosPossiveis(); //para cada movimento possivel, vou tentar tirar do xeque
+                for(int i=0; i< tab.linhas; i++)
+                {
+                    for(int j=0; j < tab.colunas; j++)
+                    {
+                        if(mat[i, j])//se estiver amrcado como VERDADEIRA
+                        {
+                            Posicao origem = x.posicao;
+                            Posicao destino = new Posicao(i, j);
+                            //É uma possivel posição para a peça verdadeira
+                            Peca PecaCapturada = executaMovimento(origem, new Posicao(i, j)); //realiza movimento de la para i,j
+                            bool testeXeque = EstaEmXeque(cor); //testando se ainda esta em xeque
+                            DesfazMovimento(origem, destino, PecaCapturada); // Desfaz o movimento
+                            if(!testeXeque) //significa que o movimento de cima tirou do xeque
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
+
+            
         }
 
 
