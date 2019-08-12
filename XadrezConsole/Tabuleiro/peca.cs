@@ -57,6 +57,12 @@ namespace tabuleiro
             qteMovimentos++;
         }
 
+        //4.4 Vai incrementar a quantidade de movimentos
+        public void DecrementarQteMovimentos()
+        {
+            qteMovimentos--;
+        }
+
         //4.3.2 Movimentos possiveis que as peças podem fazer
         public abstract bool[,] MovimentosPossiveis();
         

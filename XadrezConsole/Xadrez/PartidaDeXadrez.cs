@@ -22,6 +22,8 @@ namespace Xadrez
         //Vai guardar as pecas ccapturadas
         private HashSet<Peca> capturadas;
 
+        public bool xeque { get; private set; }
+
         //9.2 Construtores
         public PartidaDeXadrez()
         {
@@ -34,8 +36,8 @@ namespace Xadrez
             terminada = false;
         }
 
-        //9.3 Metodos
-        public void executaMovimento(Posicao origem, Posicao destino)
+        //9.3 Metodos, retornando a peca capturada
+        public Peca executaMovimento(Posicao origem, Posicao destino)
         {
             Peca p = tab.RetirarPeca(origem); // Retirando do tabuleiro a peça da pos origem dela
             p.IncrementarQteMovimentos(); //Essa peça mexeu
@@ -45,12 +47,39 @@ namespace Xadrez
             {
                 capturadas.Add(PecaCapturada);
             }
+            return PecaCapturada;
+        }
+
+        public void DesfazMovimento(Posicao origem, Posicao destino, Peca PecaCapturada)
+        {
+            Peca p = tab.RetirarPeca(destino);// retirando uma peca da posição destino
+            p.DecrementarQteMovimentos(); // decrementando quantidade de movimentos
+            if (PecaCapturada != null) // teve uma peça capturada
+            {
+                tab.ColocarPeca(PecaCapturada, destino);
+                capturadas.Remove(PecaCapturada);
+            }
+            tab.ColocarPeca(p, origem);
         }
 
         //9.3.3 ExecutaMovimento + PassandoTurno + MudaJogador
         public void RealizaJogada(Posicao origem, Posicao destino)
         {
-            executaMovimento(origem, destino);
+            Peca PecaCapturada = executaMovimento(origem, destino);
+            if (EstaEmXeque(jogadorAtual))
+            {
+                DesfazMovimento(origem, destino, PecaCapturada);
+                throw new TabuleiroException("Voce não pode se colocar em Xeque");
+            }
+            if (EstaEmXeque(Adversaria(jogadorAtual)))
+            {
+                xeque = true;
+            }
+            else
+            {
+                xeque = false;
+            }
+
             turno++;
             MudarJogador();
         }
@@ -128,6 +157,54 @@ namespace Xadrez
             }
             aux.ExceptWith(PecasCapturadas(cor));
             return aux;
+        }
+
+        //9.3.7 Metodo responsavel por verificar quem é a peça adversaria
+        private Cor Adversaria(Cor cor)
+        {
+            if(cor == Cor.Branca)
+            {
+                return Cor.Preta;
+            }
+            else
+            {
+                return Cor.Branca;
+            }
+            
+        }
+
+        //9.3.8 Metodo responsavel por acahr o REi dentro do conjunto de peçasEmJogo da msm COR
+        private Peca rei (Cor cor)
+        {
+            foreach( Peca x in PecasEmJogo(cor))
+            {
+                //se o x for da classe REI
+                if( x is Rei)
+                {
+                    return x;
+                }
+            }
+            return null;
+        }
+
+       //9.3.8 Metodo responsavel de verificar se as pecas adversarias podem mover para posicao do rei
+
+        public bool EstaEmXeque(Cor cor)
+        {
+            Peca R = rei(cor);
+            if(R == null)
+            {
+                throw new TabuleiroException("Não existe um rei");
+            }
+            foreach(Peca x in PecasEmJogo(Adversaria(cor)))
+            {
+                bool[,] mat = x.MovimentosPossiveis();
+                if(mat[R.posicao.linha, R.posicao.coluna])
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
 
