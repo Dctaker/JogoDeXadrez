@@ -7,9 +7,12 @@ namespace Xadrez
 {
     class Rei : Peca
     {
+        private PartidaDeXadrez partida;
+
         //7.2 Construtor que vai repassar a instrução para classe Peca
-        public Rei(Tabuleiro tab, Cor cor) : base(tab, cor)
+        public Rei(Tabuleiro tab, Cor cor, PartidaDeXadrez partida) : base(tab, cor)
         {
+            this.partida = partida;
         }
         //7.3 Metodo que vai imprimir o REI
         public override string ToString()
@@ -26,6 +29,14 @@ namespace Xadrez
             return p == null || p.cor != cor;
         }
 
+
+        private bool TesteTorreRoque(Posicao pos)
+        {
+            //Metodo vai testar se a peça que esta nessa POS é uma torre
+            Peca p = tab.peca(pos);
+            return p != null && p is Torre && p.cor == cor && p.qteMovimentos == 0;
+            // E atende os requisitos do Roque
+        }
 
         //7.3.3 Todas as 8 possiveis movimentações do REI
         public override bool[,] MovimentosPossiveis()
@@ -97,6 +108,42 @@ namespace Xadrez
             {
                 mat[pos.linha, pos.coluna] = true; //PODE MOVER
             }
+
+            // Jogada especial - ROQUE
+            //se nao tiver mexido, e não estiver em xeque
+            if(qteMovimentos ==0 && !partida.xeque )
+            {
+                //Roque pequeno // posicao da torre
+                Posicao post1 = new Posicao(posicao.linha, posicao.coluna + 3);
+                if (TesteTorreRoque(post1))
+                {
+                    //Posicao do rei + 1
+                    Posicao p1 = new Posicao(posicao.linha, posicao.coluna + 1);
+                    Posicao p2 = new Posicao(posicao.linha, posicao.coluna + 2);
+                    if(tab.peca(p1) == null && tab.peca(p2) == null)
+                    {
+                        mat[posicao.linha, posicao.coluna +2] = true;
+                    }
+                }
+
+                //Roque pequeno // posicao da torre
+                Posicao post2 = new Posicao(posicao.linha, posicao.coluna -4);
+                if (TesteTorreRoque(post2))
+                {
+                    //Posicao do rei + 1
+                    Posicao p1 = new Posicao(posicao.linha, posicao.coluna - 1);
+                    Posicao p2 = new Posicao(posicao.linha, posicao.coluna - 2);
+                    Posicao p3 = new Posicao(posicao.linha, posicao.coluna - 3);
+
+                    if (tab.peca(p1) == null && tab.peca(p2) == null && tab.peca(p3) == null)
+                    {
+                        mat[posicao.linha, posicao.coluna -2] = true;
+                    }
+                }
+                
+            }
+
+
 
             return mat;
 
